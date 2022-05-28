@@ -1,0 +1,38 @@
+Q1) 1141. User Activity for the Past 30 Days I
+Write an SQL query to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. A user was active on someday if they made at least one activity on that day.
+
+Return the result table in any order.
+
+/* Write your T-SQL query statement below */
+-- count(user_id) as active_users
+SELECT day , count(user_id) as active_users
+FROM (
+SELECT activity_date AS day , user_id , count(activity_type)as total
+FROM Activity
+WHERE activity_date BETWEEN DATEADD(day,-29,'2019-07-27') and '2019-07-27'
+GROUP BY activity_date , user_id
+HAVING count(activity_type) > 0 ) as tb 
+GROUP BY day
+
+===================================================================================================================================================
+
+Q2) 1693. Daily Leads and Partners
+
+Write an SQL query that will, for each date_id and make_name, return the number of distinct lead_id's and distinct partner_id's.
+
+Return the result table in any order.
+
+SELECT date_id , make_name , count(distinct lead_id) as unique_leads , count(distinct partner_id) as unique_partners
+FROM DailySales
+GROUP BY date_id , make_name 
+
+
+===================================================================================================================================================
+Q3) 1729. Find Followers Count
+Write an SQL query that will, for each user, return the number of followers.
+
+Return the result table ordered by user_id.
+
+SELECT user_id , count(follower_id) as followers_count
+FROM Followers
+ORDER BY user_id
